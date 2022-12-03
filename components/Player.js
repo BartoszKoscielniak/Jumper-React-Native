@@ -1,6 +1,6 @@
 import Matter from 'matter-js'
 import React from 'react'
-import { View } from 'react-native'
+import {Image, View} from 'react-native'
 
 const Player = props => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x
@@ -12,16 +12,15 @@ const Player = props => {
   const color = props.color;
 
   return(
-      <View style={{
-          borderWidth: 1,
-          borderColor: color,
-          borderStyle: 'solid',
-          position: 'absolute',
-          left: xBody,
-          top: yBody,
-          width: widthBody,
-          height: heightBody
-      }}/>
+      <Image
+          source={require('../assets/ninjaFog.png')}
+          style={{
+              width: widthBody,
+              height: heightBody,
+              position: 'absolute',
+              left: xBody,
+              top: yBody}}
+      />
   )
 }
 
@@ -30,8 +29,14 @@ export default (world, color, pos, size) => {
       pos.x,
       pos.y,
       size.width,
-      size.height,
-      {label: 'Player'}
+      size.height, {
+          label: 'Player',
+          collisionFilter: {
+              'group': -1,
+              'category': 2,
+              'mask': 2,
+          },
+      }
   )
   Matter.World.add(world, initialPlayer)
 
