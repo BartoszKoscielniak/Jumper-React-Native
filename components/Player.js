@@ -9,14 +9,13 @@ const Player = props => {
   const xBody = props.body.position.x - widthBody /2
   const yBody = props.body.position.y - heightBody /2
 
-  const color = props.color;
-
   return(
       <Image
           source={require('../assets/ninjaFog.png')}
           style={{
               width: widthBody,
               height: heightBody,
+              resizeMode: 'contain',
               position: 'absolute',
               left: xBody,
               top: yBody}}
@@ -29,7 +28,8 @@ export default (world, color, pos, size) => {
       pos.x,
       pos.y,
       size.width,
-      size.height, {
+      size.height,
+      {
           label: 'Player',
           collisionFilter: {
               'group': -1,

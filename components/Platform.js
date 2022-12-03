@@ -1,6 +1,6 @@
 import Matter from 'matter-js'
 import React from 'react'
-import { View } from 'react-native'
+import {Image, View} from 'react-native'
 
 const Platform = props => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x
@@ -9,17 +9,23 @@ const Platform = props => {
   const xBody = props.body.position.x - widthBody /2
   const yBody = props.body.position.y - heightBody /2
 
-  const color = props.color;
+  const textureSize = 40;
 
   return(
-      <View style={{
-          backgroundColor: color,
-          position: 'absolute',
-          left: xBody,
-          top: yBody,
-          width: widthBody,
-          height: heightBody
-      }}/>
+      <View
+          style={{
+              position: "absolute",
+              left: xBody,
+              top: yBody,
+              width: widthBody,
+              height: heightBody,
+              overflow: 'hidden',
+              flexDirection: 'row'
+          }}>
+          {Array.apply(null, Array(Math.ceil(widthBody / textureSize))).map(( el, idx) => {
+              return <Image style={{ width: 40, height: 40 }} key={idx} resizeMode="stretch" source={require('../assets/platform/terrainGreen40.png')} />
+          })}
+      </View>
   )
 }
 
@@ -31,9 +37,16 @@ export default (world, color, pos, size) => {
       size.height,
       {
         label: 'Platform',
+          collisionFilter: {
+              'group': 1,
+              'category': 2,
+              'mask': 2,
+          },
         isStatic: true
-        }
+      }
   )
+
+
   Matter.World.add(world, initialPlatform)
 
   return {
