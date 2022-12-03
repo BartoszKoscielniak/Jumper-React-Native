@@ -3,7 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { GameEngine } from 'react-native-game-engine'; 
 import entities from './entities';
-import Physics from './physics';
+import Physics from './utils/physics';
+import {backgroundBrown} from "./assets";
+
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 export default function App() {
   const [running, setRunning] = useState(false)
@@ -16,6 +21,19 @@ export default function App() {
 
   return (
     <View style={{flex: 1}}>
+        <Image
+            source={backgroundBrown}
+            style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: windowWidth,
+            height: windowHeight
+            }}
+            resizeMode={"repeat"}
+        />
       <Text style={{textAlign: 'center', fontSize: 50, fontWeight: 'bold', margin: 20}}>{points}</Text>
       <GameEngine 
       ref={(ref) => { setGameEngine(ref) }}
