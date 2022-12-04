@@ -6,12 +6,13 @@ const windowWidth = Dimensions.get('window').width
 export const getRandom = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
-export const getPipeSizePosPair = (addToPosX = 0) => {
-    let yPosTop = -getRandom(300, windowHeight - 100)
 
-    const pipeTop = { pos: { x: windowWidth + addToPosX, y: yPosTop }, size: { height: windowHeight * 2, width: 75 } }
-    const pipeBottom = { pos: { x: windowWidth + addToPosX, y: windowHeight * 2 + 200 + yPosTop }, size: { height: windowHeight * 2, width: 75 } }
+export const getPlatformSizePosPair = (addToPosY = 0) => {
+    let pWidth = getRandom(100, windowWidth / 2.5)
+    let xPos = getRandom(60, windowWidth - pWidth)
 
-    return { pipeTop, pipeBottom }
+    const platform = { pos: { x: xPos, y: windowHeight - addToPosY}, size: { height: 22, width: pWidth } }
+
+    return { platform }
 
 }
