@@ -5,7 +5,6 @@ import {GameEngine} from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './systems/Physics';
 import Control from './systems/Control';
-import {backgroundBrown} from "./assets";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from "expo-media-library";
 
@@ -26,7 +25,7 @@ export default function App() {
     return (
         <View style={{flex: 1}}>
             <Image
-                source={backgroundBrown}
+                source={require('./assets/Background/Brown.png')}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -70,6 +69,19 @@ export default function App() {
             </GameEngine>
             {!running && gameStatus === null ?
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Image
+                        source={require('./assets/Background/Gray.png')}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            width: windowWidth,
+                            height: windowHeight
+                        }}
+                        resizeMode={"repeat"}
+                    />
                     <TouchableOpacity style={{backgroundColor: 'black', paddingHorizontal: 30, paddingVertical: 10}}
                                       onPress={() => {
                                           setPoints(0)
@@ -84,6 +96,19 @@ export default function App() {
                 </View> : null}
             {!running && gameStatus === 'game_over' ?
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Image
+                        source={require('./assets/Background/Gray.png')}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            width: windowWidth,
+                            height: windowHeight
+                        }}
+                        resizeMode={"repeat"}
+                    />
                     <TouchableOpacity style={{backgroundColor: 'black', paddingHorizontal: 30, paddingVertical: 10}}
                                       onPress={() => {
                                           setPoints(0)

@@ -1,7 +1,6 @@
 import Matter from "matter-js";
 import {Dimensions} from 'react-native'
 import {getPlatformSizePosPair} from "../utils/random";
-import {getVelocityVector} from "../utils/DirectionVector";
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
@@ -15,9 +14,12 @@ function Physics(entities, {touches, time, dispatch}) {
     let playerVelocity = playerBody.velocity;
     let platformVelocity = 1;
 
-    if(playerPos.y < windowHeight / 2) {
-        platformVelocity = 3;
-        engine.gravity.y = 1;
+    if(playerPos.y < windowHeight / 3 * 2) {
+        platformVelocity = 3.5;
+        engine.gravity.y = 1.1;
+    }else if(playerPos.y < windowHeight / 3){
+        platformVelocity = 3.75;
+        engine.gravity.y = 1.2;
     }
 
     if(playerPos.x + playerSize > windowWidth) {
@@ -51,8 +53,8 @@ function Physics(entities, {touches, time, dispatch}) {
 
         if(playerVelocity.y >= 0) {
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity})
-        } else if (playerVelocity.y < 0 && playerPos.y < windowWidth / 3) {
-            Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y})
+        } else if (playerVelocity.y < 0 && playerPos.y < windowHeight / 2) {
+            Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y * 1.25})
         }else {
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y})
         }

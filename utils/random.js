@@ -9,7 +9,7 @@ export const getRandom = ( min, max ) => {
 
 export const getPlatformSizePosPair = ( addToPosY = 0 ) => {
     let pWidth = getRandom( 100, windowWidth / 2.5 )
-    let xPos = getRandom( 60, windowWidth - pWidth )
+    let xPos = getRandom( 60, windowWidth - pWidth - 100 )
 
     const platform = { pos: { x: xPos, y: windowHeight - addToPosY }, size: { height: 22, width: pWidth } }
 
