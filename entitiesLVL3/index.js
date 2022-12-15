@@ -5,6 +5,8 @@ import {Dimensions} from "react-native";
 import Obstacle3 from "../components/Obstacle3";
 import {getPlatformSizePosPair} from "../utils/random";
 import Joystick from "../components/Joystick";
+import Bomb from "../components/Bomb";
+import Obstacle2 from "../components/Obstacle2";
 
 const windowHeight = Dimensions.get ( 'window' ).height;
 const windowWidth = Dimensions.get ( 'window' ).width;
@@ -29,8 +31,13 @@ export default () => {
         Platform3: Obstacle3 ( world, 'Platform3', 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
         Platform4: Obstacle3 ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
         Platform5: Obstacle3 ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
+        Platform6: Obstacle3 ( world, 'Platform6', 'black', {x: platformSizePosB.platform.pos.x + 30 + platformSizePosB.platform.size.width, y: platformSizePosB.platform.pos.y}, {width: platformSizePosB.platform.size.width / 2, height: platformSizePosB.platform.size.height} ),
 
-        PlayerVelocity:     {x: 8, y: 25},
+        Bomb1: Bomb(world, 'Bomb', 'black', {x:155, y: -100}, {width: 28, height: 28}),
+        Bomb2: Bomb(world, 'Bomb', 'black', {x:333, y: -100}, {width: 28, height: 28}),
+        Bomb3: Bomb(world, 'Bomb', 'black', {x:12, y: -100}, {width: 28, height: 28}),
+
+        PlayerVelocity:     {x: 8, y: 12},
         PlatformVelocity:   {y: 2},
 
         Joystick1: Joystick ( world, 'black', { x: -100, y: -100 }, 20 ),

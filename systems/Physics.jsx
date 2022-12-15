@@ -30,7 +30,11 @@ function Physics(entities, {touches, time, dispatch}) {
 
     Matter.Engine.update(engine, time.delta)
 
-    for (let index = 1; index <= 5; index++) {
+    for (let index = 1; index <= 6; index++) {
+
+        if(entities[`Platform${index}`] === undefined){
+            continue;
+        }
 
         if(entities[`Platform${index}`].body.bounds.max.y >= playerPos.y && !entities[`Platform${index}`].point && playerVelocity.y < -1) {
             entities[`Platform${index}`].point = true;
@@ -39,6 +43,12 @@ function Physics(entities, {touches, time, dispatch}) {
 
         if(entities[`Platform${index}`].body.bounds.max.y >= windowHeight) {
             let platformSizePos = getPlatformSizePosPair(windowHeight);
+            if(index === 3 && entities[`Platform6`] !== undefined) {
+                let platformSize = entities[`Platform3`].body.bounds.max.x - entities[`Platform3`].body.bounds.min.x;
+                Matter.Body.setPosition(entities[`Platform3`].body, platformSizePos.platform.pos)
+                Matter.Body.setPosition(entities[`Platform6`].body, {x: platformSizePos.platform.pos.x + 30 + platformSize,y: platformSizePos.platform.pos.y})
+                entities[`Platform${index}`].point = false;
+            }
             Matter.Body.setPosition(entities[`Platform${index}`].body, platformSizePos.platform.pos)
             entities[`Platform${index}`].point = false;
         }
@@ -70,11 +80,6 @@ function Physics(entities, {touches, time, dispatch}) {
             };
         }
     }
-
-    if(entities['Bomb'] !== undefined && entities['Bomb'].body.position.x === playerPos.x && entities['Bomb'].body.position.y === playerPos.y){
-        dispatch({type: 'game_over'});
-    }
-
 
     if(playerPos.y - playerSize > windowHeight) {
         dispatch({type: 'game_over'})

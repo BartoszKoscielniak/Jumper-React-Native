@@ -13,7 +13,11 @@ function Control ( entities, { touches, time, dispatch, swap } ) {
     let playerPos = playerBody.position;
 
     const onPlatform = ( playerPos ) => {
-        for (let index = 1; index <= 5; index++) {
+        for (let index = 1; index <= 6; index++) {
+            if(entities[`Platform${index}`] === undefined){
+                continue;
+            }
+
             if(playerPos.x < entities[`Platform${index}`].body.bounds.max.x + playerSize / 2 &&
                 playerPos.x > entities[`Platform${index}`].body.bounds.min.x - playerSize / 2 &&
                 playerPos.y <= entities[`Platform${index}`].body.bounds.min.y &&

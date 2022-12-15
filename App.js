@@ -2,11 +2,12 @@ import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
 import {GameEngine} from 'react-native-game-engine';
-import entities from './entities';
-import entitiesLVL2 from './entitiesLVL2';
-import entitiesLVL3 from './entitiesLVL3';
+import lvl1 from './entities';
+import lvl2 from './entitiesLVL2';
+import lvl3 from './entitiesLVL3';
 import Physics from './systems/Physics';
 import Control from './systems/Control';
+import Traps from './systems/Traps';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from "expo-media-library";
 import * as Permissions from 'expo-permissions';
@@ -24,7 +25,7 @@ export default function App() {
     const [lvl, setLvl]                 = useState(1)
     const [background, setBackground]   = useState(require( './assets/Background/Brown.png' ))
 
-//TODO: kolejne poziomy, system zbierania gwiazdek, miny, boostowanie velocity przez zjedzenie jabluszka, opisac troche kodu w dokumetnacji
+//TODO: system zbierania gwiazdek, boostowanie velocity przez zjedzenie jabluszka, opisac troche kodu w dokumetnacji
     useEffect(() => {
         setRunning(false)
     }, [])
@@ -58,8 +59,8 @@ export default function App() {
                 ref={(ref) => {
                     setGameEngine(ref)
                 }}
-                systems={[Physics, Control]}
-                entities={entities()}
+                systems={[Physics, Control, Traps]}
+                entities={lvl1()}
                 running={running}
                 onEvent={(e) => {
                     switch(e.type) {
@@ -77,13 +78,13 @@ export default function App() {
                         case 'new_point':
                             setPoints(points + 1)
                             if(points === 15 && lvl === 1){
-                                gameEngine.swap(entitiesLVL2());
+                                gameEngine.swap(lvl2());
                                 setBackground(require('./assets/Background/Gray.png'));
                                 setLvl(2);
                             }
 
                             if(points === 30 && lvl === 2){
-                                gameEngine.swap(entitiesLVL3());
+                                gameEngine.swap(lvl3());
                                 setBackground(require('./assets/Background/Purple.png'));
                                 setLvl(3);
                             }
@@ -113,7 +114,7 @@ export default function App() {
                                       onPress={() => {
                                           setPoints(0)
                                           setRunning(true)
-                                          gameEngine.swap(entities())
+                                          gameEngine.swap(lvl1())
                                           fileExist().then(getTextFromFile().then(r => setBestScore(parseInt(r))))
                                       }}>
                         <Text style={{fontWeight: 'bold', color: 'white', fontSize: 30}}>
@@ -140,7 +141,7 @@ export default function App() {
                                       onPress={() => {
                                           setPoints(0)
                                           setRunning(true)
-                                          gameEngine.swap(entities())
+                                          gameEngine.swap(lvl1())
                                       }}>
                         <Text style={{fontWeight: 'bold', color: 'white', fontSize: 30, textAlign: "center"}}>
                             GAME OVER

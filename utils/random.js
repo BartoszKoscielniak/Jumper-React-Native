@@ -16,3 +16,10 @@ export const getPlatformSizePosPair = ( addToPosY = 0 ) => {
     return { platform }
 
 }
+
+export const getTrapRandPos = () => {
+    let xPos = getRandom( 28, windowWidth - 100 )
+    let yPos = getRandom( 30, windowWidth - 100 )
+
+    return { x: xPos, y: yPos }
+}

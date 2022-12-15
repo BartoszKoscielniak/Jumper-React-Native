@@ -30,9 +30,8 @@ export default () => {
         Platform3: Obstacle ( world, 'Platform3', 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
         Platform4: Obstacle ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
         Platform5: Obstacle ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
-        Bomb: Bomb(world, 'Bomb', 'black', {x:155, y:400}, {width: 28, height: 28}),
 
-        PlayerVelocity:     {x: 8, y: 18},
+        PlayerVelocity:     {x: 8, y: 12},
         PlatformVelocity:   {y: 1},
 
         Platform: Platform ( world, 'green', { x: windowWidth / 2, y: windowHeight }, { height: 40, width: windowWidth } ),
