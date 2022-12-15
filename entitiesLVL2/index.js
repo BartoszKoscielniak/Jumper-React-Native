@@ -2,7 +2,7 @@ import Matter from "matter-js"
 import Platform from "../components/Platform";
 import Player from "../components/Player";
 import {Dimensions} from "react-native";
-import Obstacle from "../components/Obstacle";
+import Obstacle2 from "../components/Obstacle2";
 import {getPlatformSizePosPair} from "../utils/random";
 import Joystick from "../components/Joystick";
 import Bomb from "../components/Bomb";
@@ -23,19 +23,19 @@ export default () => {
 
     return {
         physics: { engine, world },
-        Player: Player ( world, 'green', { x: windowWidth / 2 - 20, y: windowHeight - 70 }, { height: 36, width: 36 } ),
+        Player: Player ( world, 'green', { x:  platformSizePosB.platform.pos.x, y:  platformSizePosB.platform.pos.y - 36 }, { height: 36, width: 36 } ),
 
-        Platform1: Obstacle ( world, 'Platform1', 'red', platformSizePosAA.platform.pos, platformSizePosAA.platform.size ),
-        Platform2: Obstacle ( world, 'Platform2', 'red', platformSizePosA.platform.pos, platformSizePosA.platform.size ),
-        Platform3: Obstacle ( world, 'Platform3', 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
-        Platform4: Obstacle ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
-        Platform5: Obstacle ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
+        Platform1: Obstacle2 ( world, 'Platform1', 'red', platformSizePosAA.platform.pos, platformSizePosAA.platform.size ),
+        Platform2: Obstacle2 ( world, 'Platform2', 'red', platformSizePosA.platform.pos, platformSizePosA.platform.size ),
+        Platform3: Obstacle2 ( world, 'Platform3', 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
+        Platform4: Obstacle2 ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
+        Platform5: Obstacle2 ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
+
         Bomb: Bomb(world, 'Bomb', 'black', {x:155, y:400}, {width: 28, height: 28}),
 
-        PlayerVelocity:     {x: 8, y: 18},
-        PlatformVelocity:   {y: 1},
+        PlayerVelocity:     {x: 8, y: 22},
+        PlatformVelocity:   {y: 1.5},
 
-        Platform: Platform ( world, 'green', { x: windowWidth / 2, y: windowHeight }, { height: 40, width: windowWidth } ),
         Joystick1: Joystick ( world, 'black', { x: -100, y: -100 }, 20 ),
         Joystick2: Joystick ( world, 'black', { x: -100, y: -100 }, 30 )
     }

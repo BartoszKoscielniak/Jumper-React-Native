@@ -3,21 +3,28 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
 import {GameEngine} from 'react-native-game-engine';
 import entities from './entities';
+import entitiesLVL2 from './entitiesLVL2';
+import entitiesLVL3 from './entitiesLVL3';
 import Physics from './systems/Physics';
 import Control from './systems/Control';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from "expo-media-library";
+import * as Permissions from 'expo-permissions';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 export default function App() {
-    const [running, setRunning] = useState(false)
-    const [gameEngine, setGameEngine] = useState(null)
-    const [points, setPoints] = useState(0)
-    const [gameStatus, setGameStatus] = useState(null)
-    const [bestScore, setBestScore] = useState(0)
 
+    const [running, setRunning]         = useState(false)
+    const [gameEngine, setGameEngine]   = useState(null)
+    const [points, setPoints]           = useState(0)
+    const [gameStatus, setGameStatus]   = useState(null)
+    const [bestScore, setBestScore]     = useState(0)
+    const [lvl, setLvl]                 = useState(1)
+    const [background, setBackground]   = useState(require( './assets/Background/Brown.png' ))
+
+//TODO: kolejne poziomy, system zbierania gwiazdek, miny, boostowanie velocity przez zjedzenie jabluszka, opisac troche kodu w dokumetnacji
     useEffect(() => {
         setRunning(false)
     }, [])
@@ -25,7 +32,7 @@ export default function App() {
     return (
         <View style={{flex: 1}}>
             <Image
-                source={require('./assets/Background/Brown.png')}
+                source={background}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -38,7 +45,14 @@ export default function App() {
                 resizeMode={"repeat"}
             />
             {running ?
-                <Text style={{textAlign: 'center', fontSize: 50, fontWeight: 'bold', margin: 20}}>{points}</Text>
+                <View style={{flexDirection:"row"}}>
+                    <View style={{flex:1}}>
+                        <Text style={{textAlign: 'left', fontSize: 25, fontWeight: 'bold', margin: 20}}>LVL {lvl}</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                        <Text style={{textAlign: 'right', fontSize: 25, fontWeight: 'bold', margin: 20}}>Points {points}</Text>
+                    </View>
+                </View>
                 : null}
             <GameEngine
                 ref={(ref) => {
@@ -52,6 +66,8 @@ export default function App() {
                         case 'game_over':
                             setRunning(false)
                             setGameStatus(e.type)
+                            setLvl(1);
+                            setBackground(require('./assets/Background/Brown.png'));
                             gameEngine.stop()
                             if(points > bestScore){
                                 setBestScore(points)
@@ -60,6 +76,17 @@ export default function App() {
                             break;
                         case 'new_point':
                             setPoints(points + 1)
+                            if(points === 15 && lvl === 1){
+                                gameEngine.swap(entitiesLVL2());
+                                setBackground(require('./assets/Background/Gray.png'));
+                                setLvl(2);
+                            }
+
+                            if(points === 30 && lvl === 2){
+                                gameEngine.swap(entitiesLVL3());
+                                setBackground(require('./assets/Background/Purple.png'));
+                                setLvl(3);
+                            }
                             break;
                     }
                 }}
@@ -70,7 +97,7 @@ export default function App() {
             {!running && gameStatus === null ?
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Image
-                        source={require('./assets/Background/Gray.png')}
+                        source={require('./assets/Background/Yellow.png')}
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -97,7 +124,7 @@ export default function App() {
             {!running && gameStatus === 'game_over' ?
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Image
-                        source={require('./assets/Background/Gray.png')}
+                        source={require('./assets/Background/Yellow.png')}
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -131,10 +158,13 @@ export default function App() {
 }
 
 async function saveToJson(score) {
-    let fileUri = FileSystem.documentDirectory + "text.txt";
-    await FileSystem.writeAsStringAsync(fileUri, score, { encoding: FileSystem.EncodingType.UTF8 });
-    const asset = await MediaLibrary.createAssetAsync(fileUri)
-    await MediaLibrary.createAlbumAsync("Download", asset, false)
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if(status === 'granted') {
+        let fileUri = FileSystem.documentDirectory + "text.txt";
+        await FileSystem.writeAsStringAsync( fileUri, score, { encoding: FileSystem.EncodingType.UTF8 } );
+        const asset = await MediaLibrary.createAssetAsync( fileUri )
+        await MediaLibrary.createAlbumAsync( "Download", asset, false )
+    }
 }
 
 async function loadFile () {

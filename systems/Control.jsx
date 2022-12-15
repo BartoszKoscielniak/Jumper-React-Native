@@ -1,19 +1,16 @@
 import Matter from "matter-js";
 import {Dimensions} from 'react-native'
 import {getVelocityVector} from "../utils/DirectionVector";
-import entities from "../entities";
 
 const windowHeight = Dimensions.get( 'window' ).height
-const windowWidth = Dimensions.get( 'window' ).width
 
-function Control ( entities, { touches, time, dispatch } ) {
+function Control ( entities, { touches, time, dispatch, swap } ) {
 
-    let moveVelocity = 8;
-    let jumpVelocity = 20;
-    let playerSize = 36;
-    let playerPos = entities.Player.body.position;
+    let moveVelocity = entities['PlayerVelocity'].x;
+    let jumpVelocity = entities['PlayerVelocity'].y;
     let playerBody = entities.Player.body;
-    let playerVelocity = playerBody.velocity;
+    let playerSize = playerBody.bounds.max.x - playerBody.bounds.min.x;
+    let playerPos = playerBody.position;
 
     const onPlatform = ( playerPos ) => {
         for (let index = 1; index <= 5; index++) {
@@ -24,13 +21,8 @@ function Control ( entities, { touches, time, dispatch } ) {
                 return true;
             }
         }
-        return playerPos.x < entities[`Platform`].body.bounds.max.x && playerPos.x > entities[`Platform`].body.bounds.min.x &&
+        return entities[`Platform`] !== undefined && playerPos.x < entities[`Platform`].body.bounds.max.x && playerPos.x > entities[`Platform`].body.bounds.min.x &&
             playerPos.y <= entities[`Platform`].body.bounds.min.y && playerPos.y >= entities[`Platform`].body.bounds.min.y - playerSize;
-
-    }
-
-    if(playerPos.y < windowHeight / 2) {
-        jumpVelocity = 18;
     }
 
     touches.filter( t => t.type === 'start' || t.type === 'end' || t.type === 'move' ).forEach( element => {
@@ -62,7 +54,7 @@ function Control ( entities, { touches, time, dispatch } ) {
                         y: entities.Joystick1.body.position.y
                     }, { x: entities.Joystick2.body.position.x, y: entities.Joystick2.body.position.y } );
                     if(onPlatform(playerPos)){
-                        Matter.Body.setVelocity( entities.Player.body, {
+                        Matter.Body.setVelocity( playerBody, {
                             x: vVector.x * moveVelocity,
                             y: vVector.y * jumpVelocity
                         } )
@@ -82,7 +74,5 @@ function Control ( entities, { touches, time, dispatch } ) {
 
     return entities;
 }
-
-
 
 export default Control

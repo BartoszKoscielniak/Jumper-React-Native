@@ -8,19 +8,11 @@ const windowWidth = Dimensions.get('window').width
 function Physics(entities, {touches, time, dispatch}) {
 
     let engine = entities.physics.engine
-    let playerSize = 40;
-    let playerPos = entities.Player.body.position;
     let playerBody = entities.Player.body;
+    let playerSize = playerBody.bounds.max.x - playerBody.bounds.min.x;
+    let playerPos = playerBody.position;
     let playerVelocity = playerBody.velocity;
-    let platformVelocity = 1;
-
-    if(playerPos.y < windowHeight / 3 * 2) {
-        platformVelocity = 3.5;
-        engine.gravity.y = 1.1;
-    }else if(playerPos.y < windowHeight / 3){
-        platformVelocity = 3.75;
-        engine.gravity.y = 1.2;
-    }
+    let platformVelocity = entities['PlatformVelocity'].y;
 
     if(playerPos.x + playerSize > windowWidth) {
         Matter.Body.setPosition(entities.Player.body, {
@@ -59,7 +51,7 @@ function Physics(entities, {touches, time, dispatch}) {
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y})
         }
 
-        if(playerVelocity.y < -1){
+        if(entities['Platform'] !== undefined && playerVelocity.y < -1){
             Matter.Body.translate(entities['Platform'].body, {x: 0, y: -playerVelocity.y * 2})
             Matter.Composite.remove(engine.world, entities['Platform'].body);
         }
@@ -78,6 +70,11 @@ function Physics(entities, {touches, time, dispatch}) {
             };
         }
     }
+
+    if(entities['Bomb'] !== undefined && entities['Bomb'].body.position.x === playerPos.x && entities['Bomb'].body.position.y === playerPos.y){
+        dispatch({type: 'game_over'});
+    }
+
 
     if(playerPos.y - playerSize > windowHeight) {
         dispatch({type: 'game_over'})
