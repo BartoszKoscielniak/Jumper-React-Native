@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "game",
+    "name": "NinjaFrog",
     "slug": "game",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.phtom.ninjafrog"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2d27769-bb26-4da6-8ff4-b04bf405bacc"
+      }
     }
   }
 }
