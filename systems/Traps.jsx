@@ -1,11 +1,10 @@
 import Matter from "matter-js";
 import {Dimensions} from 'react-native'
-import {getPlatformSizePosPair, getTrapRandPos} from "../utils/random";
+import {getTrapRandPos} from "../utils/random";
 
 const windowHeight = Dimensions.get('window').height
-const windowWidth = Dimensions.get('window').width
 
-function Physics(entities, {touches, time, dispatch}) {
+function Traps(entities, {touches, time, dispatch}) {
 
     let playerBody = entities.Player.body;
     let playerSize = playerBody.bounds.max.x - playerBody.bounds.min.x;
@@ -33,4 +32,4 @@ function Physics(entities, {touches, time, dispatch}) {
     return entities;
 }
 
-export default Physics
+export default Traps
