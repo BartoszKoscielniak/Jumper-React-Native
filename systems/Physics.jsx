@@ -14,7 +14,7 @@ function Physics(entities, {touches, time, dispatch}) {
     let playerVelocity = playerBody.velocity;
     let platformVelocity = entities['PlatformVelocity'].y;
 
-    if(playerPos.x + playerSize > windowWidth) {
+    if(playerPos.x + playerSize > windowWidth) {//uniemozliwienie przemieszczenia poza krawedz ekranu
         Matter.Body.setPosition(entities.Player.body, {
             x: windowWidth - playerSize,
             y: playerPos.y
@@ -22,7 +22,7 @@ function Physics(entities, {touches, time, dispatch}) {
     }
 
     if(playerPos.x - playerSize < 0) {
-        Matter.Body.setPosition(entities.Player.body, {
+        Matter.Body.setPosition(entities.Player.body, {//uniemozliwienie przemieszczenia poza krawedz ekranu
             x: playerSize,
             y: playerPos.y
         })
@@ -30,18 +30,18 @@ function Physics(entities, {touches, time, dispatch}) {
 
     Matter.Engine.update(engine, time.delta)
 
-    for (let index = 1; index <= 6; index++) {
+    for (let index = 1; index <= 6; index++) {//iterowanie po obiektach platform
 
-        if(entities[`Platform${index}`] === undefined){
+        if(entities[`Platform${index}`] === undefined){//sprawdzenie czy platforma istnieje, od poziomu 3 istnieje jedna wiecej
             continue;
         }
 
-        if(entities[`Platform${index}`].body.bounds.max.y >= playerPos.y && !entities[`Platform${index}`].point && playerVelocity.y < -1) {
+        if(entities[`Platform${index}`].body.bounds.max.y >= playerPos.y && !entities[`Platform${index}`].point && playerVelocity.y < -1) {//mechanizm zdobywania punkow
             entities[`Platform${index}`].point = true;
             dispatch({type: 'new_point'})
         }
 
-        if(entities[`Platform${index}`].body.bounds.max.y >= windowHeight) {
+        if(entities[`Platform${index}`].body.bounds.max.y >= windowHeight) {//respawn platform za gorna krawedzia ekranu, gdy te znajda sie ponizej dolnej krawedzi
             let platformSizePos = getPlatformSizePosPair(windowHeight);
             if(index === 3 && entities[`Platform6`] !== undefined) {
                 let platformSize = entities[`Platform3`].body.bounds.max.x - entities[`Platform3`].body.bounds.min.x;
@@ -53,7 +53,7 @@ function Physics(entities, {touches, time, dispatch}) {
             entities[`Platform${index}`].point = false;
         }
 
-        if(playerVelocity.y >= 0) {
+        if(playerVelocity.y >= 0) {//manipulowanie velocity platformy
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity})
         } else if (playerVelocity.y < 0 && playerPos.y < windowHeight / 2) {
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y * 1.25})
@@ -61,12 +61,12 @@ function Physics(entities, {touches, time, dispatch}) {
             Matter.Body.translate(entities[`Platform${index}`].body, {x: 0, y: platformVelocity - playerVelocity.y})
         }
 
-        if(entities['Platform'] !== undefined && playerVelocity.y < -1){
+        if(entities['Platform'] !== undefined && playerVelocity.y < -1){//usuniecie platformy po rozpoczeciu gry przez gracza
             Matter.Body.translate(entities['Platform'].body, {x: 0, y: -playerVelocity.y * 2})
             Matter.Composite.remove(engine.world, entities['Platform'].body);
         }
 
-        if(playerVelocity.y >= 0) {
+        if(playerVelocity.y >= 0) {//mechanizm manipulowania przenikalnoscia gracza przez platforme
             entities[`Platform${index}`].body.collisionFilter = {
                 'group': 1,
                 'category': 2,
@@ -81,7 +81,7 @@ function Physics(entities, {touches, time, dispatch}) {
         }
     }
 
-    if(playerPos.y - playerSize > windowHeight) {
+    if(playerPos.y - playerSize > windowHeight) {//warunek przegranej
         dispatch({type: 'game_over'})
     }
 

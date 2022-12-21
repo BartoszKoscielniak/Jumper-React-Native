@@ -14,7 +14,6 @@ export const getPlatformSizePosPair = ( addToPosY = 0 ) => {
     const platform = { pos: { x: xPos, y: windowHeight - addToPosY }, size: { height: 22, width: pWidth } }
 
     return { platform }
-
 }
 
 export const getTrapRandPos = () => {

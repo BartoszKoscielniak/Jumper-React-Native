@@ -31,7 +31,7 @@ export default () => {
         Platform4: Obstacle ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
         Platform5: Obstacle ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
 
-        PlayerVelocity:     {x: 8, y: 12},
+        PlayerVelocity:     {x: 8, y: 18},
         PlatformVelocity:   {y: 1},
 
         Platform: Platform ( world, 'green', { x: windowWidth / 2, y: windowHeight }, { height: 40, width: windowWidth } ),

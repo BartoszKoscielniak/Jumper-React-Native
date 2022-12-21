@@ -37,7 +37,7 @@ export default () => {
         Bomb2: Bomb(world, 'Bomb', 'black', {x:333, y: -100}, {width: 28, height: 28}),
         Bomb3: Bomb(world, 'Bomb', 'black', {x:12, y: -100}, {width: 28, height: 28}),
 
-        PlayerVelocity:     {x: 8, y: 12},
+        PlayerVelocity:     {x: 8, y: 18},
         PlatformVelocity:   {y: 2},
 
         Joystick1: Joystick ( world, 'black', { x: -100, y: -100 }, 20 ),
