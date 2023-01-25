@@ -5,7 +5,7 @@ import {getPlatformSizePosPair} from "../utils/random";
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
 
-function Physics(entities, {touches, time, dispatch}) {
+const Physics = (entities, {touches, time, dispatch}) => {
 
     let engine = entities.physics.engine
     let playerBody = entities.Player.body;

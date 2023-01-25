@@ -4,7 +4,7 @@ import {getTrapRandPos} from "../utils/random";
 
 const windowHeight = Dimensions.get('window').height
 
-function Traps(entities, {touches, time, dispatch}) {
+const Traps = (entities, {touches, time, dispatch}) => {
 
     let playerBody = entities.Player.body;
     let playerPos = playerBody.position;

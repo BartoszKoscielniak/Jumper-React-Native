@@ -1,10 +1,10 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
-import {GameEngine} from 'react-native-game-engine';
-import lvl1 from './entities';
-import lvl2 from './entitiesLVL2';
-import lvl3 from './entitiesLVL3';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import { GameEngine } from 'react-native-game-engine';
+import lvl1 from './entities/lvl1'
+import lvl2 from './entities/lvl2';
+import lvl3 from './entities/lvl3';
 import Physics from './systems/Physics';
 import Control from './systems/Control';
 import Traps from './systems/Traps';
@@ -25,7 +25,6 @@ export default function App() {
     const [lvl, setLvl]                 = useState(1)
     const [background, setBackground]   = useState(require( './assets/Background/Brown.png' ))
 
-//TODO: system zbierania gwiazdek, boostowanie velocity przez zjedzenie jabluszka, opisac troche kodu w dokumetnacji
     useEffect(() => {
         setRunning(false)
     }, [])
@@ -158,7 +157,7 @@ export default function App() {
     );
 }
 
-async function saveToJson(score) {
+const saveToJson = async (score) => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if(status === 'granted') {
         let fileUri = FileSystem.documentDirectory + "text.txt";
@@ -168,17 +167,17 @@ async function saveToJson(score) {
     }
 }
 
-async function loadFile () {
+const loadFile = async () => {
     let filename = FileSystem.documentDirectory + "text.txt";
     return await FileSystem.readAsStringAsync( filename, { encoding: FileSystem.EncodingType.UTF8 } );
 }
 
-async function getTextFromFile () {
+const getTextFromFile = async () => {
     let value = loadFile();
     return await value;
 }
 
-async function fileExist () {
+const fileExist = async() => {
     FileSystem.getInfoAsync( 'file://text.txt' ).then(r => {
         if(r.exists === false){
             saveToJson("0")

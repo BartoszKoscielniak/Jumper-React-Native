@@ -5,12 +5,11 @@ import {Dimensions} from "react-native";
 import Obstacle from "../components/Obstacle";
 import {getPlatformSizePosPair} from "../utils/random";
 import Joystick from "../components/Joystick";
-import Bomb from "../components/Bomb";
 
 const windowHeight = Dimensions.get ( 'window' ).height;
 const windowWidth = Dimensions.get ( 'window' ).width;
 
-export default () => {
+const lvl1 = () => {
     let engine = Matter.Engine.create ( { enableSleeping: false } )
     let world = engine.world
     engine.gravity.y = 0.9;
@@ -25,13 +24,13 @@ export default () => {
         physics: { engine, world },
         Player: Player ( world, 'green', { x: windowWidth / 2 - 20, y: windowHeight - 70 }, { height: 36, width: 36 } ),
 
-        Platform1: Obstacle ( world, 'Platform1', 'red', platformSizePosAA.platform.pos, platformSizePosAA.platform.size ),
-        Platform2: Obstacle ( world, 'Platform2', 'red', platformSizePosA.platform.pos, platformSizePosA.platform.size ),
-        Platform3: Obstacle ( world, 'Platform3', 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
-        Platform4: Obstacle ( world, 'Platform4', 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
-        Platform5: Obstacle ( world, 'Platform5', 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
+        Platform1: Obstacle ( world, 'red', platformSizePosAA.platform.pos, platformSizePosAA.platform.size ),
+        Platform2: Obstacle ( world, 'red', platformSizePosA.platform.pos, platformSizePosA.platform.size ),
+        Platform3: Obstacle ( world, 'purple', platformSizePosB.platform.pos, platformSizePosB.platform.size ),
+        Platform4: Obstacle ( world, 'grey', platformSizePosC.platform.pos, platformSizePosC.platform.size ),
+        Platform5: Obstacle ( world, 'black', platformSizePosD.platform.pos, platformSizePosD.platform.size ),
 
-        PlayerVelocity:     {x: 8, y: 18},
+        PlayerVelocity:     {x: 8, y: 30},
         PlatformVelocity:   {y: 1},
 
         Platform: Platform ( world, 'green', { x: windowWidth / 2, y: windowHeight }, { height: 40, width: windowWidth } ),
@@ -39,3 +38,5 @@ export default () => {
         Joystick2: Joystick ( world, 'black', { x: -100, y: -100 }, 30 )
     }
 }
+
+export default lvl1;

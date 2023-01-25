@@ -1,4 +1,4 @@
-export const getVelocityVector = ( playerPos, destination ) => {
+const getVelocityVector = ( playerPos, destination ) => {
 
     const vector = { x: destination.x - playerPos.x, y: destination.y - playerPos.y };
     const vectorLenght = Math.sqrt( Math.pow( vector.x, 2 ) + Math.pow( vector.y, 2 ) );
@@ -7,3 +7,4 @@ export const getVelocityVector = ( playerPos, destination ) => {
     return directory;
 }
 
+export default getVelocityVector;

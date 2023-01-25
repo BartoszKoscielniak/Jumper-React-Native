@@ -1,10 +1,10 @@
 import Matter from "matter-js";
 import {Dimensions} from 'react-native'
-import {getVelocityVector} from "../utils/DirectionVector";
+import getVelocityVector from "../utils/DirectionVector";
 
 const windowHeight = Dimensions.get( 'window' ).height
 
-function Control ( entities, { touches, time, dispatch, swap } ) {
+const Control = ( entities, { touches, time, dispatch, swap } ) => {
 
     let moveVelocity = entities['PlayerVelocity'].x;
     let jumpVelocity = entities['PlayerVelocity'].y;

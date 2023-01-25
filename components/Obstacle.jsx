@@ -30,7 +30,7 @@ const Obstacle = props => {
     )
 }
 
-export default (world, label, color, pos, size) => {
+export default (world, color, pos, size) => {
     const initialObstacle = Matter.Bodies.rectangle (
         pos.x,
         pos.y,

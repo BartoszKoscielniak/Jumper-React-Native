@@ -1,8 +1,8 @@
 import Matter from 'matter-js'
 import React from 'react'
-import {Image, View} from 'react-native'
+import { Image } from 'react-native'
 
-const Player=props => {
+const Player = props => {
     const widthBody=props.body.bounds.max.x - props.body.bounds.min.x
     const heightBody=props.body.bounds.max.y - props.body.bounds.min.y
 
